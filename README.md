@@ -139,7 +139,10 @@ will not be rejected. This is because the null hypotheis is rejected
 when the p value is smaller than 0.05, and since the obtained p value
 was 0.5596 which was greater than 0.05, there was failure to reject the
 null hypothesis stating that there was no difference in teh number of
-species in the main rivers caused by the presence of tributaries.
+species in the main rivers caused by the presence of tributaries. The
+means from the different locations were different, the mean in the
+downstream group was 16.41667 and the mean in the upstream group was
+14.58333. The mean difference was 1.83334
 
 ## Question C
 
