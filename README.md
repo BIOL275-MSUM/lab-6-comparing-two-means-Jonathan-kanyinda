@@ -168,7 +168,7 @@ fish_long %>%
   ggplot(aes(x = species)) +
   geom_histogram(
     aes(fill = location), 
-    bins = 15, 
+    bins = 8, 
     alpha = 0.5, 
     position = "identity"
   ) +
