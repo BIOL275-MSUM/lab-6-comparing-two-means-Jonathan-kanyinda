@@ -46,7 +46,7 @@ library(tidyverse)
 ``` r
 # read data ---------------------------------------------------------------
 
-fish <- read_csv("chap12q19ElectricFish.csv")
+fish <- read_csv("chap12q19ElectricFish.csv")  # fish data
 ```
 
     ## 
@@ -55,6 +55,17 @@ fish <- read_csv("chap12q19ElectricFish.csv")
     ##   tributary = col_character(),
     ##   speciesUpstream = col_double(),
     ##   speciesDownstream = col_double()
+    ## )
+
+``` r
+crab <- read_csv("chap15q27FiddlerCrabFans.csv")  # crab data
+```
+
+    ## 
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## cols(
+    ##   crabType = col_character(),
+    ##   bodyTemperature = col_double()
     ## )
 
 ``` r
@@ -174,3 +185,74 @@ was normally distributed and that the peaks/umps of the two locations
 would be close enough to generate an overall normal distribution. Based
 on the graph,the distribution does not appear to be normal and therefore
 does not meet teh assumption made about the normality.
+
+## Question D
+
+> Graph the distribution of body temperatures for each crab type:
+
+``` r
+crab %>% 
+  filter(!is.na(crabType)) %>% 
+  ggplot(aes(x = bodyTemperature)) +
+  geom_histogram(
+    aes(fill = crabType), 
+    bins = 10, 
+    alpha = 0.5, 
+    position = "identity",
+    na.rm = TRUE
+  )  + 
+  scale_fill_manual(values = c("darkorange", "darkorchid", "cyan4", "yellow")) +
+  theme_minimal() +
+  facet_wrap(~crabType,, ncol=1)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+## Question E
+
+> Does body temperature varies among crab types? State the null and
+> alternative hypothesis, conduct and ANOVA, and interpret the results.
+
+``` r
+# ANOVA test
+
+aov_body_temperature_crabType <-
+  aov(bodyTemperature ~ crabType, data = crab)
+aov_body_temperature_crabType
+```
+
+    ## Call:
+    ##    aov(formula = bodyTemperature ~ crabType, data = crab)
+    ## 
+    ## Terms:
+    ##                 crabType Residuals
+    ## Sum of Squares  2.641310  3.467619
+    ## Deg. of Freedom        3        80
+    ## 
+    ## Residual standard error: 0.2081952
+    ## Estimated effects may be unbalanced
+    ## 1 observation deleted due to missingness
+
+``` r
+summary(aov_body_temperature_crabType) # summary of the ANOVA test
+```
+
+    ##             Df Sum Sq Mean Sq F value Pr(>F)    
+    ## crabType     3  2.641  0.8804   20.31  7e-10 ***
+    ## Residuals   80  3.468  0.0433                   
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 1 observation deleted due to missingness
+
+The null hypothesis is that the mean body temparature would be the same
+in all four crab groups and, teh alternative hypothesis is that the mean
+body temperature would be different in at least one of thefour groups.
+Based on the graph, a difference in body temparature can be observed and
+females appeared to have a higher body temperature than that of the
+males in general.
+
+Based on the result of the ANOVA test, the p-value obtained is 7e-10
+which would be lower than any most likely alpha chosen, and thus will
+result un the rejection of the null hypothesis and come to the
+conclusion that the mean body temperature would be different in at least
+one of the four crab species

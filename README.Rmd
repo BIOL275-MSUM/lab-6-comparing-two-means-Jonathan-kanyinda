@@ -29,7 +29,9 @@ library(tidyverse)
 
 # read data ---------------------------------------------------------------
 
-fish <- read_csv("chap12q19ElectricFish.csv")
+fish <- read_csv("chap12q19ElectricFish.csv")  # fish data
+
+crab <- read_csv("chap15q27FiddlerCrabFans.csv")  # crab data
 
 # put data in tidy format ------------------------------------------------
 
@@ -97,3 +99,61 @@ was that the data was normally distributed and that the peaks/umps of the two lo
 would be close enough to generate an overall normal distribution.
 Based on the graph,the distribution does not appear to be normal and therefore
 does not meet teh assumption made about the normality.
+
+
+
+
+## Question D 
+
+>Graph the distribution of body temperatures for each crab type:
+
+```{r}
+crab %>% 
+  filter(!is.na(crabType)) %>% 
+  ggplot(aes(x = bodyTemperature)) +
+  geom_histogram(
+    aes(fill = crabType), 
+    bins = 10, 
+    alpha = 0.5, 
+    position = "identity",
+    na.rm = TRUE
+  )  + 
+  scale_fill_manual(values = c("darkorange", "darkorchid", "cyan4", "yellow")) +
+  theme_minimal() +
+  facet_wrap(~crabType,, ncol=1)
+```
+
+
+
+
+
+
+## Question E
+
+>Does body temperature varies among crab types? State the null and alternative hypothesis, conduct and ANOVA, and interpret the results.
+
+```{r}
+# ANOVA test
+
+aov_body_temperature_crabType <-
+  aov(bodyTemperature ~ crabType, data = crab)
+aov_body_temperature_crabType
+
+summary(aov_body_temperature_crabType) # summary of the ANOVA test
+
+```
+
+
+
+The null hypothesis is that the mean body temparature would be the same in all four crab groups and,
+teh alternative hypothesis is that the mean body temperature would be different in at least one of 
+thefour groups.
+Based on the graph, a difference in body temparature can be observed and females appeared to have a 
+higher body temperature than that of the males in general.
+
+Based on the result of the ANOVA test, the p-value obtained is 7e-10 which would be lower than any
+most likely alpha chosen, and thus will result un the rejection of the null hypothesis and come to 
+the conclusion that the mean body temperature would be different in at least one of the four
+crab species
+
+
