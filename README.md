@@ -135,7 +135,11 @@ t.test(formula = species ~ location, data = fish_long)
     ##                 16.41667                 14.58333
 
 The p value 0.5596 is greater than 0.05, therefore the null hypothesis
-will not be rejected
+will not be rejected. This is because the null hypotheis is rejected
+when the p value is smaller than 0.05, and since the obtained p value
+was 0.5596 which was greater than 0.05, there was failure to reject the
+null hypothesis stating that there was no difference in teh number of
+species in the main rivers caused by the presence of tributaries.
 
 ## Question C
 
@@ -146,47 +150,24 @@ will not be rejected
 ANSWER
 
 ``` r
-# Estimation of the mean and addition of the 95% interval around the estimates
-
-fish_long_summary <-
-  fish_long %>% 
-  group_by(location) %>% 
-  summarize(
-    n = n(),
-    mean = mean(species),
-    sd = sd(species),
-    sem = sd/sqrt(n),
-    upper = mean + 1.96 * sem,
-    lower = mean - 1.96 * sem
-  ) %>% 
-  print()
-```
-
-    ## `summarise()` ungrouping output (override with `.groups` argument)
-
-    ## # A tibble: 2 x 7
-    ##   location       n  mean    sd   sem upper lower
-    ##   <chr>      <int> <dbl> <dbl> <dbl> <dbl> <dbl>
-    ## 1 Downstream    12  16.4  7.22  2.08  20.5  12.3
-    ## 2 Upstream      12  14.6  7.93  2.29  19.1  10.1
-
-``` r
-# Scatter plot of the data with added confidence intervalls 
-
 fish_long %>% 
-  ggplot(aes(x = location, y = species)) +
-  geom_jitter(aes(color = location), 
-              shape = 16, alpha = 0.3, width = 0.4) +
-  geom_errorbar(aes(y = mean, ymax = upper, ymin = lower), 
-                data = fish_long_summary, width = .1) +
-  geom_point(aes(y = mean), 
-             data = fish_long_summary) +
-  scale_color_manual(values = c("darkorange","cyan4")) +
-  theme_minimal() +
-  guides(color = "none")
+  ggplot(aes(x = species)) +
+  geom_histogram(
+    aes(fill = location), 
+    bins = 15, 
+    alpha = 0.5, 
+    position = "identity"
+  ) +
+  scale_fill_manual(values = c("darkorange","cyan4")) +
+  theme_minimal()
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
-Based on the graph, we can see that the confidednce intervals overlap,
-therefore the assumptions were met.
+For Question A, the assumption made was that the presence of tributaries
+did not affect the local number of electric fish in the main rivers
+(Also the Null hypothesis). For part B, the assumption was that the data
+was normally distributed and that the peaks/umps of the two locations
+would be close enough to generate an overall normal distribution. Based
+on the graph,the distribution does not appear to be normal and therefore
+does not meet teh assumption made about the normality.

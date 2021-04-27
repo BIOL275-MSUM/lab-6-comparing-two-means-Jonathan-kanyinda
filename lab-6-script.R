@@ -45,36 +45,23 @@ Lower_limit = 8.253697
 "The assumption was that the data was normally distributed and that teh hump shaped were closed enough 
 to be considered normally shaped"
 
-# Estimation of the mean and addition of the 95% interval around the estimates
-
-fish_long_summary <-
-  fish_long %>% 
-  group_by(location) %>% 
-  summarize(
-    n = n(),
-    mean = mean(species),
-    sd = sd(species),
-    sem = sd/sqrt(n),
-    upper = mean + 1.96 * sem,
-    lower = mean - 1.96 * sem
-  ) %>% 
-  print()
-
-# Scatter plot of the data with added confidence intervalls 
-
 fish_long %>% 
-  ggplot(aes(x = location, y = species)) +
-  geom_jitter(aes(color = location), 
-              shape = 16, alpha = 0.3, width = 0.4) +
-  geom_errorbar(aes(y = mean, ymax = upper, ymin = lower), 
-                data = fish_long_summary, width = .1) +
-  geom_point(aes(y = mean), 
-             data = fish_long_summary) +
-  scale_color_manual(values = c("darkorange","cyan4")) +
-  theme_minimal() +
-  guides(color = "none")
+  ggplot(aes(x = species)) +
+  geom_histogram(
+    aes(fill = location), 
+    bins = 15, 
+    alpha = 0.5, 
+    position = "identity"
+  ) +
+  scale_fill_manual(values = c("darkorange","cyan4")) +
+  theme_minimal()
 
-"Based on the graph, we can see that the confidednce intervals overlap, therefore the assumptions
-were met"
+"For Question A, the assumption made was that the presence of tributaries did not affect the local
+number of electric fish in the main rivers (Also the Null hypothesis). For part B, the assumption 
+was that the data was normally distributed and that the peaks/umps of the two locations 
+would be close enough to generate an overall normal distribution.
+Based on the graph,the distribution does not appear to be normal and therefore
+does not meet teh assumption made about the normality."
+
 
 
