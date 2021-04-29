@@ -3,6 +3,8 @@ Lab 6 Comparing two means
 Jonathan Kanyinda
 2021-04-22
 
+# Comparing means
+
 Researchers studying the number of electric fish species living in
 various parts of the Amazon basin were interested in whether the
 presence of tributaries affected the local number of electric fish
@@ -23,8 +25,6 @@ show the code you used to come up with the answer, if applicable.
 > interval of this mean difference. Show your code and write a sentence
 > giving your
 answer
-
-ANSWER
 
 ``` r
 # load packages -----------------------------------------------------------
@@ -127,8 +127,6 @@ Lower\_limit = 8.253697
 > Test the hypothesis that the tributaries have no effect on the number
 > of species of electric fish.
 
-ANSWER
-
 ``` r
 t.test(formula = species ~ location, data = fish_long)
 ```
@@ -161,8 +159,6 @@ downstream group was 16.41667 and the mean in the upstream group was
 > (B). Create a graph to assess whether one of those assumptions was
 > met.
 
-ANSWER
-
 ``` r
 fish_long %>% 
   ggplot(aes(x = species)) +
@@ -185,6 +181,27 @@ was normally distributed and that the peaks/umps of the two locations
 would be close enough to generate an overall normal distribution. Based
 on the graph,the distribution does not appear to be normal and therefore
 does not meet teh assumption made about the normality.
+
+# ANOVA
+
+Fiddler crabs are so called because males have a greatly enlarged
+“major” claw, which is used to attract females and to defend a
+burrow.
+
+Darnell and Munguia (2011) recently suggested that this appendage might
+also act as a heat sink, keeping males cooler while out of the burrow on
+hot days.
+
+To test this, they placed four groups of crabs into separate plastic
+cups and supplied a source of radiant heat (60-watt light bulb) from
+above. The four groups were intact male crabs, male crabs with the major
+claw removed; male crabs with the other (minor) claw removed (control);
+and intact female fiddler crabs.
+
+They measured the body temperature of crabs every 10 minutes for 1.5
+hours. These measurements were used to calculate a rate of heat gain for
+every individual crab in degrees C/log minute. Rates of heat gain for
+all crabs are provided in the accompanying data file.
 
 ## Question D
 
